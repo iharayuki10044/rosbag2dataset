@@ -1,0 +1,23 @@
+{
+    "topics": [
+        "usb_cam/image_raw/compressed",
+        "odom",
+        "front_laser/scan"
+    ],
+    "dataset": [
+        "obs",
+        "acs",
+        "pos",
+        "lidar"
+    ],
+    "hz": 10,
+    "traj_steps": 50,
+    "output_dir": "/root/dataset",
+    "bagfile_dir": "/root/bagfiles",
+    "bagfile_name": ["hoge.bag"],
+    "width": 256,
+    "height": 256,
+    "action_noise": 0.1,
+    "lower_bound": [0.0, -1.5],
+    "upper_bound": [1.5, 1.5]
+} 
