@@ -71,7 +71,7 @@ def convert_Twist(data, action_noise, lower_bound, upper_bound, hz=None, use_pos
 def convert_LaserScan(data):
     lidar = []
     for msg in tqdm(data):
-        lidar.append(np.array(msg.ranges))
+        lidar.append(np.nan_to_num(np.array(msg.ranges),nan=30))
     return lidar
 
 def convert_Imu(data):
