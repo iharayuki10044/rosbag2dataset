@@ -87,6 +87,9 @@ if __name__ == '__main__':
                             goal = transform_pose(traj_pos[idx+config["goal_steps"]], pose)
                             goals.append(goal)
                     data = torch.tensor(goals, dtype=torch.float32)
+                elif data_name == "obs":
+                    traj_img = dataset["obs"][t0:t1]
+                    data = torch.tensor(traj_img, dtype=torch.float32)
                 else:
                     traj_data = dataset[data_name][t0:t1]
                     data = torch.tensor(traj_data, dtype=torch.float32)
