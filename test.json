@@ -14,7 +14,7 @@
     "traj_steps": 50,
     "output_dir": "/root/dataset/test",
     "bagfile_dir": "/root/bagfiles/realworld/ikuta",
-    "bagfile_name": ["2021-08-01-18-20-44.bag"],
+    "bagfile_name": ["2021-08-04-16-45-14.bag"],
     "width": 256,
     "height": 256,
     "action_noise": 0.1,

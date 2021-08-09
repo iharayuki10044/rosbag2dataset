@@ -90,6 +90,8 @@ if __name__ == '__main__':
                 elif data_name == "obs":
                     traj_img = dataset["obs"][t0:t1]
                     data = torch.tensor(traj_img, dtype=torch.float32)
+                    data = data.permute(0, 3, 1, 2) / 255
+                    #print(data.size())
                 else:
                     traj_data = dataset[data_name][t0:t1]
                     data = torch.tensor(traj_data, dtype=torch.float32)
