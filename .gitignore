@@ -1,4 +1,4 @@
 __pycache__
 
 *.json
-!config.json
+!/config.json
