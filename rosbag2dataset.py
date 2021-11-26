@@ -40,7 +40,10 @@ if __name__ == '__main__':
             topic_type = rosbag_handler.get_topic_type(topic)
             if topic_type == "sensor_msgs/CompressedImage":
                 print("==== convert compressed image ====")
-                dataset["obs"] = convert_CompressedImage(sample_data[topic], config["height"], config["width"])
+                if(config["resize"]):
+                    dataset["obs"] =convert_CompressedImage_Resized(sample_data[topic], config["height"], config["width"])
+                else:
+                    dataset["obs"] = convert_CompressedImage(sample_data[topic], config["height"], config["width"])
             elif topic_type == "":
                 print("==== convert image ====")
                 dataset["obs"] = convert_Image(sample_data[topic], config["height"], config["width"])
