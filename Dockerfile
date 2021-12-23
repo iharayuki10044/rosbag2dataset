@@ -17,7 +17,8 @@ RUN pip3 install --upgrade pip && \
     pip3 install --no-cache-dir \
         torch \
         opencv-python \
-        tqdm
+        tqdm \
+        numpy-quaternion
 
 WORKDIR /root
 CMD ["/bin/bash"]
