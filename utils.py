@@ -117,15 +117,11 @@ def transform_pose_with_quaternion(pose, base_pose):
     yaw = pose[2] - base_pose[2]
     yaw = np.arctan2(np.sin(yaw), np.cos(yaw))
     yaw_quaternion = quaternion.as_float_array(quaternion.from_euler_angles(np.array([0,0,yaw])))
-    yaw_quaternion1 = quaternion.as_float_array(quaternion.from_euler_angles(np.array([0,yaw,0])))
-    yaw_quaternion2 = quaternion.as_float_array(quaternion.from_euler_angles(np.array([yaw,0,0])))
     #yaw_quaternion = quaternion.as_float_array(quaternion.from_euler_angles(gamma=yaw))
     print("0")
     print(yaw_quaternion)
-    print("1")
-    print(yaw_quaternion1)
-    print("2")
-    print(yaw_quaternion2)
+    print("ROS")
+    q = tf.transformations.quaternion_from_euler(0, 0, yaw)
     trans_pose = np.array([ x*np.cos(base_pose[2]) + y*np.sin(base_pose[2]),
                            -x*np.sin(base_pose[2]) + y*np.cos(base_pose[2]),
                            np.arctan2(np.sin(yaw), np.cos(yaw))])
