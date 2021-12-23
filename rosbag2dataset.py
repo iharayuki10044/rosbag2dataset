@@ -12,6 +12,7 @@ from utils import *
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--config', type=str, default="config.json")
+    parser.add_argument('--quat', action='store_true')
     args = parser.parse_args()
 
     if os.path.exists(args.config):
@@ -79,7 +80,10 @@ if __name__ == '__main__':
                     poses = []
                     init_pose = traj_pos[0].copy()
                     for idx, pose in enumerate(traj_pos):
-                        trans_pose = transform_pose(pose, init_pose)
+                        if(args.quat):
+                            trans_pose = transform_pose_with_quaternion(pose, init_pose)
+                        else:
+                            trans_pose = transform_pose(pose, init_pose)
                         poses.append(trans_pose)
                     data = torch.tensor(poses, dtype=torch.float32)
                 elif data_name == "goal":
