@@ -13,6 +13,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--config', type=str, default="config.json")
     parser.add_argument('--quat', action='store_true')
+    parser.add_argument('--use-pose', action='store_true')
     args = parser.parse_args()
 
     if os.path.exists(args.config):
@@ -50,8 +51,15 @@ if __name__ == '__main__':
                 dataset["obs"] = convert_Image(sample_data[topic], config["height"], config["width"])
             elif topic_type == "nav_msgs/Odometry":
                 print("==== convert odometry ====")
-                dataset['acs'], dataset['pos'] = \
-                    convert_Odometry(sample_data[topic], config['action_noise'],
+                if(args.use_pose):
+                    dataset['acs'] = \
+                        convert_OdometryVel(sample_data[topic], config['action_noise'],
+                                        config['lower_bound'], config["upper_bound"])
+                    dataset['pos'] = \
+                        convert_Pose(sample_data[topic])
+                else:
+                    dataset['acs'], dataset['pos'] = \
+                        convert_Odometry(sample_data[topic], config['action_noise'],
                                         config['lower_bound'], config["upper_bound"])
             elif topic_type == "geometry_msgs/Twist":
                 print("==== convert twist ====")

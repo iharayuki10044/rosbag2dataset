@@ -55,6 +55,23 @@ def convert_Odometry(data, action_noise, lower_bound, upper_bound):
         pos.append(pose)
     return acs, pos
 
+def convert_OdometryVel(data, action_noise, lower_bound, upper_bound):
+    acs = []
+    for msg in tqdm(data):
+        # action
+        vel = np.array([msg.twist.twist.linear.x, msg.twist.twist.angular.z])
+        vel = add_random_noise(vel, action_noise, lower_bound, upper_bound)
+        acs.append(vel)
+    return acs
+
+def convert_Pose(data):
+    pos = []
+    for msg in tqdm(data):
+        # pose
+        pose = get_pose_from_pose(msg)
+        pos.append(pose)
+    return pos
+
 def convert_Twist(data, action_noise, lower_bound, upper_bound, hz=None, use_pose=False):
     acs = []
     if use_pose:
@@ -131,6 +148,11 @@ def angle_normalize(z):
 def get_pose_from_odom(odom):
     yaw = quaternion_to_euler(odom.pose.pose.orientation).z
     pose = np.array([odom.pose.pose.position.x, odom.pose.pose.position.y, yaw])
+    return pose
+
+def get_pose_from_pose(pose):
+    yaw = quaternion_to_euler(pose.pose.orientation).z
+    pose = np.array([pose.pose.position.x, pose.pose.position.y, yaw])
     return pose
 
 def add_random_noise(action, std, lb, ub):
