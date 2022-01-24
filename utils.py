@@ -4,7 +4,6 @@ from tqdm import tqdm
 from geometry_msgs.msg import Vector3
 import tf
 from cv_bridge import CvBridge, CvBridgeError
-import quaternion
 
 def convert_Image(data, height=None, width=None):
     obs = []

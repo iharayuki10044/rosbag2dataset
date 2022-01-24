@@ -1,5 +1,4 @@
 #!/bin/bash
-
 IMAGE_NAME=rosbag2dataset_with_quat:latest
 CONTAINER_NAME=rosbag2dataset_with_quat
 
