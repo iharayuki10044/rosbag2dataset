@@ -23,7 +23,8 @@ if __name__ == '__main__':
         raise ValueError("cannot find config file")
 
     for bagfile_name in config["bagfile_name"]:
-        bagfile = os.path.join(config["bagfile_dir"], bagfile_name) 
+        bagfile = os.path.join(config["bagfile_dir"], bagfile_name)
+        print(config["bagfile_dir"]) 
         if not os.path.exists(bagfile):
             raise ValueError('set bagfile')
         file_name = os.path.splitext(os.path.basename(bagfile))[0]+"_traj"+str(config["traj_steps"])
@@ -41,14 +42,18 @@ if __name__ == '__main__':
         for topic in sample_data.keys():
             topic_type = rosbag_handler.get_topic_type(topic)
             if topic_type == "sensor_msgs/CompressedImage":
-                print("==== convert compressed image ====")
-                if(config["resize"]):
-                    dataset["obs"] =convert_CompressedImage_Resized(sample_data[topic], config["height"], config["width"])
-                else:
-                    dataset["obs"] = convert_CompressedImage(sample_data[topic], config["height"], config["width"])
-            elif topic_type == "":
-                print("==== convert image ====")
-                dataset["obs"] = convert_Image(sample_data[topic], config["height"], config["width"])
+                if topic == "camera0/compressed":
+                    print("==== convert compressed image ====")
+                    if(config["resize"]):
+                        dataset["obs"] =convert_CompressedImage_Resized(sample_data[topic], config["height"], config["width"])
+                    else:
+                        dataset["obs"] = convert_CompressedImage(sample_data[topic], config["height"], config["width"])
+                elif topic == "depth_image/front/compressed":
+                    print("==== convert compressed depth image ====")
+                    if(config["resize"]):
+                        dataset["obsd"] = convert_CompressedImage_Resized(sample_data[topic], config["height"], config["width"])
+                    else:
+                        dataset["obsd"] = convert_CompressedImage(sample_data[topic], config["height"], config["width"])
             elif topic_type == "nav_msgs/Odometry":
                 print("==== convert odometry ====")
                 if(args.use_pose):
@@ -106,6 +111,10 @@ if __name__ == '__main__':
                     traj_img = dataset["obs"][t0:t1]
                     data = torch.tensor(traj_img, dtype=torch.float32)
                     data = data.permute(0, 3, 1, 2) / 255
+                    #print(data.size())
+                elif data_name == "obsd":
+                    traj_img = dataset["obsd"][t0:t1]
+                    data = torch.tensor(traj_img, dtype=torch.float32)
                     #print(data.size())
                 else:
                     traj_data = dataset[data_name][t0:t1]
