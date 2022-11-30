@@ -31,7 +31,7 @@ def convert_CompressedImage(data, height=None, width=None):
         obs.append(img)
     return obs
 
-def convert_CompressedImage_Resized(data, height=None, width=None):
+def convert_ColorCompressedImage_Resized(data, height=None, width=None):
     obs = []
     for msg in tqdm(data):
         img = cv2.imdecode(np.fromstring(msg.data, np.uint8), cv2.IMREAD_COLOR)
@@ -41,6 +41,17 @@ def convert_CompressedImage_Resized(data, height=None, width=None):
             img = cv2.resize(img, (height, width))
         obs.append(img)
     return obs
+
+def convert_MonoCompressedImage_Resized(data, height=None, width=None):
+    obsd = []
+    for msg in tqdm(data):
+        img = cv2.imdecode(np.fromstring(msg.data, np.uint8), cv2.IMREAD_GRAYSCALE)
+        if height is not None and width is not None:
+            h,w,c = img.shape
+            #img = img[0:h, int((w-h)*0.5):w-int((w-h)*0.5), :]
+            img = cv2.resize(img, (height, width))
+        obs.append(img)
+    return obsd
 
 def convert_Odometry(data, action_noise, lower_bound, upper_bound):
     acs = []

@@ -45,13 +45,13 @@ if __name__ == '__main__':
                 if topic == "camera0/compressed":
                     print("==== convert compressed image ====")
                     if(config["resize"]):
-                        dataset["obs"] =convert_CompressedImage_Resized(sample_data[topic], config["height"], config["width"])
+                        dataset["obs"] =convert_ColorCompressedImage_Resized(sample_data[topic], config["height"], config["width"])
                     else:
                         dataset["obs"] = convert_CompressedImage(sample_data[topic], config["height"], config["width"])
                 elif topic == "depth_image/front/compressed":
                     print("==== convert compressed depth image ====")
                     if(config["resize"]):
-                        dataset["obsd"] = convert_CompressedImage_Resized(sample_data[topic], config["height"], config["width"])
+                        dataset["obsd"] = convert_MonoCompressedImage_Resized(sample_data[topic], config["height"], config["width"])
                     else:
                         dataset["obsd"] = convert_CompressedImage(sample_data[topic], config["height"], config["width"])
             elif topic_type == "nav_msgs/Odometry":
